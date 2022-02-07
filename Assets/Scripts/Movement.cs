@@ -5,7 +5,7 @@ using UnityEngine;
 public class Movement : MonoBehaviour
 {
     [SerializeField] private int thrust = 1000;
-    [SerializeField] private float rotationSpeed = 10;
+    [SerializeField] private float rotationSpeed = 100;
 
     Rigidbody myRigidBody;
     GameObject launchPad;
