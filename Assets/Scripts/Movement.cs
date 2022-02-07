@@ -10,11 +10,14 @@ public class Movement : MonoBehaviour
     Rigidbody myRigidBody;
     GameObject launchPad;
     Vector3 startPosition;
+    AudioSource audioSource;
+    private bool isPlayingAudio = false;
     
     // Start is called before the first frame update
     void Start()
     {
         myRigidBody = GetComponent<Rigidbody>();
+        audioSource = GetComponent<AudioSource>();
         startPosition = transform.position;
         try
         {
@@ -52,7 +55,21 @@ public class Movement : MonoBehaviour
         {
             Debug.Log("Thrusting...");
             myRigidBody.AddRelativeForce(Vector3.up * thrust * Time.deltaTime);
+            if(!isPlayingAudio)
+            {
+                isPlayingAudio = true;
+                audioSource.Play();
+            }
         }
+        else
+        {
+            if (isPlayingAudio)
+            {
+                isPlayingAudio = false;
+                audioSource.Stop();
+            }
+        }
+
     }
 
     void ProcessRotation()
