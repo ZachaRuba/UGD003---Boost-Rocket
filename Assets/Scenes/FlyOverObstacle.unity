@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: 75f010f1d9ac92644be271fb743bc690, type: 2}
   m_LightingSettings: {fileID: 0}
 --- !u!196 &4
 NavMeshSettings:
@@ -133,10 +133,6 @@ PrefabInstance:
     - target: {fileID: 635021828405584330, guid: 82e03d80eaac2ef40a179baed0dba8cd, type: 3}
       propertyPath: m_Name
       value: Rocket
-      objectReference: {fileID: 0}
-    - target: {fileID: 1284869133784207444, guid: 82e03d80eaac2ef40a179baed0dba8cd, type: 3}
-      propertyPath: m_PlayOnAwake
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7410867092786251987, guid: 82e03d80eaac2ef40a179baed0dba8cd, type: 3}
       propertyPath: m_RootOrder
@@ -411,10 +407,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3464994937786208093, guid: 1ce3addb31a5ce94593f99ecda673c1a, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: aa2e21123f173114690747720f9b17aa, type: 2}
     - target: {fileID: 7502961529044919274, guid: 1ce3addb31a5ce94593f99ecda673c1a, type: 3}
       propertyPath: m_Name
       value: Obstacle
@@ -476,10 +468,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Lauch Pad
       objectReference: {fileID: 0}
-    - target: {fileID: 4939255726260496296, guid: a542a3ec6d4d1c24bab11e534f332b2e, type: 3}
-      propertyPath: m_TagString
-      value: Friendly
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a542a3ec6d4d1c24bab11e534f332b2e, type: 3}
 --- !u!1001 &7458641299261958460
@@ -492,10 +480,6 @@ PrefabInstance:
     - target: {fileID: 5084876507492297060, guid: bdac57c573c54b74a8c8212baa487800, type: 3}
       propertyPath: m_Name
       value: Landing Pad
-      objectReference: {fileID: 0}
-    - target: {fileID: 5084876507492297060, guid: bdac57c573c54b74a8c8212baa487800, type: 3}
-      propertyPath: m_TagString
-      value: Finish
       objectReference: {fileID: 0}
     - target: {fileID: 7933084015240193632, guid: bdac57c573c54b74a8c8212baa487800, type: 3}
       propertyPath: m_RootOrder

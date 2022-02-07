@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CollisionHandler : MonoBehaviour
 {
@@ -16,8 +17,16 @@ public class CollisionHandler : MonoBehaviour
                 break;
             default:
                 Debug.Log("Oops! You bumped into an obstacle.");
+                //SceneManager.LoadScene("SampleScene");
+                ReloadLevel();
                 break;
         }
             
+    }
+
+    void ReloadLevel()
+    {
+        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        SceneManager.LoadScene(currentSceneIndex);
     }
 }
