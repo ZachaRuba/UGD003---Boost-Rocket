@@ -6,93 +6,115 @@ public class Movement : MonoBehaviour
 {
     [SerializeField] private int thrust = 1000;
     [SerializeField] private float rotationSpeed = 10;
+    [SerializeField] private AudioClip mainEngine;
+    [SerializeField] private ParticleSystem mainEngineParticles;
+    [SerializeField] private ParticleSystem thrusterCWParticles;
+    [SerializeField] private ParticleSystem thrusterCCWParticles;
+
 
     Rigidbody myRigidBody;
-    GameObject launchPad;
-    Vector3 startPosition;
     AudioSource audioSource;
-    private bool isPlayingAudio = false;
+    
+    private bool isMainEngineThrusting = false;
+    private bool isCCWEngineThrusting = false;
+    private bool isCWEngineThrusting = false;
     
     // Start is called before the first frame update
     void Start()
     {
         myRigidBody = GetComponent<Rigidbody>();
         audioSource = GetComponent<AudioSource>();
-        startPosition = transform.position;
-        try
-        {
-            launchPad = GameObject.Find("Launch Pad");
-        }
-        catch{
-            Debug.Log("No Launch Pad in Scene");
-        }
-
     }
 
     // Update is called once per frame
     void Update()
     {
-        ProcessReset();
         ProcessThrust();
         ProcessRotation();
     }
 
-
-    private void ProcessReset()
-    {
-        if (Input.GetKey(KeyCode.R)) 
-        {
-            Debug.Log("Reset...");
-            myRigidBody.velocity = Vector3.zero;
-            transform.rotation = Quaternion.Euler(Vector3.zero);
-            transform.position = startPosition;
-        }
-    }
-
     void ProcessThrust()
     {
-        if (Input.GetKey(KeyCode.Space)) 
-        {
-            Debug.Log("Thrusting...");
-            myRigidBody.AddRelativeForce(Vector3.up * thrust * Time.deltaTime);
-            if(!isPlayingAudio)
-            {
-                isPlayingAudio = true;
-                audioSource.Play();
-            }
-        }
-        else
-        {
-            if (isPlayingAudio)
-            {
-                isPlayingAudio = false;
-                audioSource.Stop();
-            }
-        }
+        bool mainEngineThrustButtonPressed = Input.GetKey(KeyCode.Space);
+
+        if (mainEngineThrustButtonPressed && !isMainEngineThrusting)
+            TurnOnMainEngine();
+        else if (!mainEngineThrustButtonPressed && isMainEngineThrusting)
+            TurnOffMainEngine();
+
+        if (isMainEngineThrusting)
+            UpdateMainEngineThrust();
 
     }
 
     void ProcessRotation()
     {
-        float angle = 0f;
+        bool isCCWEngineThrustButtonPressed = Input.GetKey(KeyCode.A);
+        bool isCWEngineThrustButtonPressed = Input.GetKey(KeyCode.D);
 
-        if (Input.GetKey(KeyCode.A))
-        {
-            Debug.Log("Rotating CCW...");
-            angle -= rotationSpeed * Time.deltaTime;
-        }
-        
-        if (Input.GetKey(KeyCode.D))
-        {
-            Debug.Log("Rotating CW...");
-            angle += rotationSpeed * Time.deltaTime;
-        }
-        
-        if(angle != 0f)
-        {
-            myRigidBody.freezeRotation = true;
-            transform.Rotate(Vector3.forward, angle);
-            myRigidBody.freezeRotation = false;
-        }
+        if (isCCWEngineThrustButtonPressed && !isCCWEngineThrusting) TurnOnCCWEngine();
+        else if (!isCCWEngineThrustButtonPressed && isCCWEngineThrusting) TurnOffCCWThruster();
+
+        if (isCWEngineThrustButtonPressed && !isCWEngineThrusting) TurnOnCWEngine();
+        else if (!isCWEngineThrustButtonPressed && isCWEngineThrusting) TurnOffCWThruster();
+
+        if (isCCWEngineThrusting || isCWEngineThrusting)
+            UpdateRotationThrust();
+    }
+
+    private void TurnOnMainEngine() 
+    {
+        isMainEngineThrusting = true;
+        audioSource.PlayOneShot(mainEngine);
+        mainEngineParticles.Play();
+    }
+
+    private void TurnOffMainEngine()
+    {
+        isMainEngineThrusting = false;
+        audioSource.Stop();
+        mainEngineParticles.Stop();
+    }
+
+    private void UpdateMainEngineThrust()
+    {
+        Debug.Log("Thrusting...");
+        myRigidBody.AddRelativeForce(Vector3.up * thrust * Time.deltaTime);
+    }
+
+    private void TurnOnCCWEngine() 
+    {
+        thrusterCCWParticles.Play();
+        isCCWEngineThrusting = true;
+    }
+
+    private void TurnOffCCWThruster()
+    {
+        thrusterCCWParticles.Stop();
+        isCCWEngineThrusting = false;
+    }
+
+    private void TurnOnCWEngine() 
+    {
+        thrusterCWParticles.Play();
+        isCWEngineThrusting = true;
+    }
+
+    private void TurnOffCWThruster()
+    {
+        thrusterCWParticles.Stop();
+        isCWEngineThrusting = false;
+    }
+    private void UpdateRotationThrust()
+    {
+        float rotationAngle;
+
+        if (!isCCWEngineThrusting && isCWEngineThrusting) rotationAngle = rotationSpeed * Time.deltaTime;
+        else if (isCCWEngineThrusting && !isCWEngineThrusting) rotationAngle = -rotationSpeed * Time.deltaTime;
+        else return;
+
+        myRigidBody.freezeRotation = true;
+        transform.Rotate(Vector3.forward, rotationAngle);
+        myRigidBody.freezeRotation = false;
     }
 }
